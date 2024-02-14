@@ -6,9 +6,9 @@ app.get('/message/:id/:user', (request, response) => {
   const { id, user } = request.params;
 
   response.send(`
-  Message ID: ${id}.
-  For user: ${user}.
-  `);
+    Message ID: ${id}.
+    For user: ${user}.
+  `);  
 });
 
 app.get('/users', (request, response) => {
