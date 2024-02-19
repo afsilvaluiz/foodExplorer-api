@@ -22,6 +22,7 @@ module.exports = {
     ecmaVersion: 'latest',
   },
   rules: {
-    "enforceForClassFields": false,
+    'class-methods-use-this': 'off',
+    camelcase: 'off',
   },
 };
