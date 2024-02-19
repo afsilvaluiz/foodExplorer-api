@@ -27,7 +27,9 @@ class UsersController {
   }
 
   async update(request, response) {
-    const { name, email, password, old_password } = request.body;
+    const {
+      name, email, password, old_password,
+    } = request.body;
     const { id } = request.params;
 
     const database = await sqliteConnection();
@@ -68,7 +70,7 @@ class UsersController {
         password = ?,
         updated_at = DATETIME('now')
         WHERE id = ?`,
-      [user.name, user.email, user.password, new Date(), id],
+      [user.name, user.email, user.password, id],
     );
 
     return response.json();
