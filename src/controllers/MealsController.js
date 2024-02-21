@@ -17,9 +17,9 @@ class MealsController {
       updated_by: user_id,
     });
 
-    const ingredientsInsert = ingredients.map((name) => ({
+    const ingredientsInsert = ingredients.map((ingredient) => ({
       meals_id,
-      name,
+      name: ingredient.name,
       created_by: user_id,
     }));
 
