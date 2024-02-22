@@ -8,5 +8,6 @@ const mealsController = new MealsController();
 
 mealsRoutes.post('/:user_id', mealsController.create);
 mealsRoutes.get('/:id', mealsController.show);
+mealsRoutes.delete('/:id', mealsController.delete);
 
 module.exports = mealsRoutes;
