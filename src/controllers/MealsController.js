@@ -27,6 +27,20 @@ class MealsController {
 
     return response.json();
   }
+
+  async show(request, response) {
+    const { id } = request.params;
+
+    const meal = await knex('meals').where({ id }).first();
+    const ingredient = await knex('ingredients')
+      .where({ meals_id: id })
+      .orderBy('name');
+
+    return response.json({
+      ...meal,
+      ingredient,
+    });
+  }
 }
 
 module.exports = MealsController;
