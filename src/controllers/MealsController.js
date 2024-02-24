@@ -50,6 +50,56 @@ class MealsController {
     return response.json();
   }
 
+  async index(request, response) {
+    const { user_id } = request.query;
+
+    const meals = await knex('meals')
+      .select(
+        'meals.id as id',
+        'meals.name as title',
+        'meals.description',
+        'meals.price',
+        'meals.image',
+        'meals.created_at',
+        'meals.updated_at',
+        'meals.category',
+        'ingredients.id as ingredient_id',
+        'ingredients.name as ingredient_name',
+        'ingredients.image as ingredient_image',
+      )
+      .leftJoin('ingredients', 'meals.id', 'ingredients.meals_id')
+      .where('meals.created_by', user_id)
+      .orderBy('meals.name');
+
+    const formattedMeals = [];
+    let currentMeal = null;
+    meals.forEach((row) => {
+      if (!currentMeal || currentMeal.id !== row.id) {
+        currentMeal = {
+          id: row.id,
+          title: row.title,
+          description: row.description,
+          price: row.price,
+          image: row.image,
+          created_at: row.created_at,
+          updated_at: row.updated_at,
+          category: row.category,
+          ingredients: [],
+        };
+        formattedMeals.push(currentMeal);
+      }
+      if (row.ingredient_id) {
+        currentMeal.ingredients.push({
+          id: row.ingredient_id,
+          name: row.ingredient_name,
+          image: row.ingredient_image,
+        });
+      }
+    });
+
+    return response.json(formattedMeals);
+  }
+
   async update(request, response) {
     const { id } = request.params;
     const {
